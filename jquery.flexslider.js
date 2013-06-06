@@ -507,8 +507,10 @@
               slider.currentSlide = slider.animatingTo;
             }
             slider.container.unbind("webkitTransitionEnd transitionend");
-            slider.container.bind("webkitTransitionEnd transitionend", function() {
-              slider.wrapup(dimension);
+            slider.container.bind("webkitTransitionEnd transitionend", function(event) {
+              if ( $(event.target).is( $(slider.containerSelector) ) ) {
+                slider.wrapup(dimension);
+              }
             });
           } else {
             slider.container.animate(slider.args, vars.animationSpeed, vars.easing, function(){
@@ -524,9 +526,11 @@
             slider.slides.eq(target).css({ "opacity": 1, "zIndex": 2 });
 
             slider.slides.unbind("webkitTransitionEnd transitionend");
-            slider.slides.eq(slider.currentSlide).bind("webkitTransitionEnd transitionend", function() {
+            slider.slides.eq(slider.currentSlide).bind("webkitTransitionEnd transitionend", function(event) {
               // API: after() animation Callback
-              vars.after(slider);
+              if ( $(event.target).is( $(slider.containerSelector) ) ) {
+                vars.after(slider);
+              }
             });
 
             slider.animating = false;
