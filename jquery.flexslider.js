@@ -717,7 +717,9 @@
             }
             slider.container.unbind("webkitTransitionEnd" + slider.vars.eventNamespace + " transitionend" + slider.vars.eventNamespace);
 +            slider.container.bind("webkitTransitionEnd" + slider.vars.eventNamespace + " transitionend" + slider.vars.eventNamespace, function() {
-              slider.wrapup(dimension);
+              if ( $(event.target).is( $(slider.containerSelector) ) ) {
++                slider.wrapup(dimension);
++              }
             });
           } else {
             slider.container.animate(slider.args, slider.vars.animationSpeed, slider.vars.easing, function(){
